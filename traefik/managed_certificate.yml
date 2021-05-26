@@ -1,0 +1,9 @@
+kind: ManagedCertificate
+apiVersion: networking.gke.io/v1
+metadata:
+  name: kwetter-certificate
+spec:
+  domains:
+    - kwetter.org
+    - www.kwetter.org
+    - traefik.kwetter.org

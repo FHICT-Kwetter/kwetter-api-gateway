@@ -1,0 +1,23 @@
+name: pipeline
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+            
+    - name: Deploy Traefik
+      uses: ameydev/gke-kubectl-action@master
+      env:
+        PROJECT_ID: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_KUBERNETES_SA_BASE64 }}
+        CLUSTER_NAME: cluster-1
+        ZONE_NAME: europe-west4-a
+      with:
+        args: apply -f ./traefik/

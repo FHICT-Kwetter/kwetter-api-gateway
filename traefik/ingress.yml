@@ -1,0 +1,46 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress
+  annotations:
+    networking.gke.io/managed-certificates: kwetter-certificate
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/redirect-entry-point: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: redirect-web-to-websecure@internal
+spec:
+  rules:
+  - host: kwetter.org
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: kwetter-web-app
+          servicePort: 80
+      - path: /api/auth/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-identity-server
+          servicePort: 80
+      - path: /api/profile/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-profile-service
+          servicePort: 80
+  - host: www.kwetter.org
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: kwetter-web-app
+          servicePort: 80
+      - path: /api/auth/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-identity-server
+          servicePort: 80
+      - path: /api/profile/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-profile-service
+          servicePort: 80
