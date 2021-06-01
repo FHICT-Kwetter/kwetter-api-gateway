@@ -32,6 +32,16 @@ spec:
         backend:
           serviceName: kwetter-profile-service
           servicePort: 80
+      - path: /api/kweets
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-kweet-service
+          servicePort: 80
+      - path: /api/kweets/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-kweet-service
+          servicePort: 80
   - host: www.kwetter.org
     http:
       paths:
@@ -53,4 +63,14 @@ spec:
         pathType: Prefix
         backend:
           serviceName: kwetter-profile-service
+          servicePort: 80
+      - path: /api/kweets
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-kweet-service
+          servicePort: 80
+      - path: /api/kweets/*
+        pathType: Prefix
+        backend:
+          serviceName: kwetter-kweet-service
           servicePort: 80
